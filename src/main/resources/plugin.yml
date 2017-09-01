@@ -1,0 +1,6 @@
+name: Protec
+main: com.ulfric.protec.Protec
+version: 1.0.0
+author: Ulfric Projects
+load: STARTUP
+depend: [Platform]
