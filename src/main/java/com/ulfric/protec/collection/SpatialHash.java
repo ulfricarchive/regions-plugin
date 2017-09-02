@@ -2,6 +2,7 @@ package com.ulfric.protec.collection;
 
 import org.apache.commons.collections4.CollectionUtils;
 
+import com.ulfric.commons.collection.Computations;
 import com.ulfric.estate.shape.Point;
 import com.ulfric.estate.shape.Shape;
 
@@ -51,7 +52,7 @@ public final class SpatialHash<V> {
 			for (int y = minY; y < maxY; y++) {
 				for (int z = minZ; z < maxZ; z++) {
 					int packed = this.pack(x, y, z);
-					List<Entry> entries = data.computeIfAbsent(packed, ignore -> new ArrayList<>());
+					List<Entry> entries = data.computeIfAbsent(packed, Computations::newArrayListIgnoring);
 					entries.add(new Entry(shape, value));
 				}
 			}
