@@ -3,6 +3,7 @@ package com.ulfric.protec.command;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 
 import com.ulfric.andrew.Context;
 import com.ulfric.andrew.Permission;
@@ -12,13 +13,15 @@ import com.ulfric.commons.naming.Name;
 import com.ulfric.estate.Region;
 import com.ulfric.i18n.content.Details;
 import com.ulfric.protec.guard.GuardService;
+import com.ulfric.servix.services.locale.InputService;
+import com.ulfric.servix.services.locale.RunCommandCallback;
 import com.ulfric.servix.services.locale.TellService;
 
 @Name("create")
 @Permission("region.create")
 public class RegionCreateCommand extends RegionCommand {
 
-	@Argument
+	@Argument(optional = true)
 	@Slug
 	private String name;
 
@@ -28,6 +31,12 @@ public class RegionCreateCommand extends RegionCommand {
 	@Override
 	public void run(Context context) { // TODO use selection for region bounds rather than shapeless (empty)
 		CommandSender sender = context.getSender();
+		if (name == null) {
+			requestName(sender);
+
+			return;
+		}
+
 		World world = world(sender);
 
 		if (world == null) {
@@ -44,6 +53,17 @@ public class RegionCreateCommand extends RegionCommand {
 		Details details = details();
 		details.add("createdRegion", region);
 		TellService.sendMessage(sender, "regions-create", details);
+	}
+
+	private void requestName(CommandSender sender) {
+		if (sender instanceof Player) {
+			requestNameOnSign((Player) sender);
+		} // TODO else
+	}
+
+	private void requestNameOnSign(Player player) {
+		InputService.requestOnSign(player, "regions-create-sign-give-name",
+				new RunCommandCallback(player, "/region create"));
 	}
 
 	private Details details() {
