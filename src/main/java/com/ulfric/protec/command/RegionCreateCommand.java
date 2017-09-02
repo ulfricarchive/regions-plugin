@@ -9,6 +9,9 @@ import com.ulfric.andrew.Permission;
 import com.ulfric.andrew.argument.Argument;
 import com.ulfric.andrew.argument.Slug;
 import com.ulfric.commons.naming.Name;
+import com.ulfric.estate.Region;
+import com.ulfric.i18n.content.Details;
+import com.ulfric.protec.guard.GuardService;
 import com.ulfric.servix.services.locale.TellService;
 
 @Name("create")
@@ -23,7 +26,7 @@ public class RegionCreateCommand extends RegionCommand {
 	private World world;
 
 	@Override
-	public void run(Context context) {
+	public void run(Context context) { // TODO use selection for region bounds rather than shapeless (empty)
 		CommandSender sender = context.getSender();
 		World world = world(sender);
 
@@ -32,7 +35,22 @@ public class RegionCreateCommand extends RegionCommand {
 			return;
 		}
 
-		// TODO finish
+		Region region = GuardService.getLastCreated().createRegion(world, name);
+		if (region == null) {
+			TellService.sendMessage(sender, "regions-create-already-exists", details());
+			return;
+		}
+
+		Details details = details();
+		details.add("createdRegion", region);
+		TellService.sendMessage(sender, "regions-create", details);
+	}
+
+	private Details details() {
+		Details details = new Details();
+		details.add("regionName", name);
+		details.add("regionWorld", world);
+		return details;
 	}
 
 	private World world(CommandSender sender) {
