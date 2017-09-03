@@ -1,7 +1,6 @@
 package com.ulfric.protec.guard;
 
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 
 import com.ulfric.data.config.Settings;
@@ -14,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.UUID;
 
 public class GuardService extends ServiceApplication implements RegionService<GuardService> {
@@ -56,18 +56,33 @@ public class GuardService extends ServiceApplication implements RegionService<Gu
 		return worlds.computeIfAbsent(world, key -> new PersistentSpatialHashRegions(key, regions));
 	}
 
-	public Region createRegion(World world, String name) {
+	public boolean createRegion(Region region, UUID world) {
+		Objects.requireNonNull(region, "region");
+		Objects.requireNonNull(world, "world");
+
+		if (regionExists(region.getName())) {
+			return false;
+		}
+
+		getRegions(world).add(region);
+		return true;
+	}
+
+	private boolean regionExists(String name) {
+		return getRegionByName(name) != null;
+	}
+
+	public Region getRegionByName(String name) {
+		Objects.requireNonNull(name, "name");
+
 		for (Entry<UUID, PersistentSpatialHashRegions> regions : this.worlds.entrySet()) {
 			Region existing = regions.getValue().getByName(name);
 
 			if (existing != null) {
-				return null;
+				return existing;
 			}
 		}
-
-		Region region = Region.builder().setName(name).build();
-		getRegions(world.getUID()).add(region);
-		return region;
+		return null;
 	}
 
 	List<RegionData> getRegionData() {

@@ -11,11 +11,16 @@ import com.ulfric.andrew.argument.Argument;
 import com.ulfric.andrew.argument.Slug;
 import com.ulfric.commons.naming.Name;
 import com.ulfric.estate.Region;
+import com.ulfric.estate.shape.Empty;
+import com.ulfric.estate.shape.Shape;
 import com.ulfric.i18n.content.Details;
 import com.ulfric.protec.guard.GuardService;
 import com.ulfric.servix.services.locale.InputService;
 import com.ulfric.servix.services.locale.RunCommandCallback;
 import com.ulfric.servix.services.locale.TellService;
+import com.ulfric.servix.services.region.Selection;
+import com.ulfric.servix.services.region.SelectionService;
+import com.ulfric.servix.services.security.RestrictedActionService;
 
 @Name("create")
 @Permission("region.create")
@@ -27,6 +32,9 @@ public class RegionCreateCommand extends RegionCommand {
 
 	@Argument(optional = true)
 	private World world;
+
+	@Argument(optional = true)
+	private int weight;
 
 	@Override
 	public void run(Context context) { // TODO use selection for region bounds rather than shapeless (empty)
@@ -44,15 +52,37 @@ public class RegionCreateCommand extends RegionCommand {
 			return;
 		}
 
-		Region region = GuardService.getLastCreated().createRegion(world, name);
-		if (region == null) {
-			TellService.sendMessage(sender, "regions-create-already-exists", details());
-			return;
+		RestrictedActionService.doRestricted(() -> {
+			
+			Region region = Region.builder()
+					.setName(name)
+					.setWeight(weight)
+					.setBounds(getBounds(sender))
+					.build();
+
+			if (!GuardService.getLastCreated().createRegion(region, world.getUID())) {
+				TellService.sendMessage(sender, "regions-create-already-exists", details());
+				return;
+			}
+
+			Details details = details();
+			details.add("createdRegion", region);
+			TellService.sendMessage(sender, "regions-create", details);
+		}, "CreateRegion");
+	}
+
+	private Shape getBounds(CommandSender sender) {
+		if (sender instanceof Player) {
+			Selection selection = SelectionService.get().getSelection(((Player) sender).getUniqueId());
+
+			if (selection.isComplete()) {
+				return selection.toShape();
+			}
+
+			return Empty.INSTANCE; // TODO warn the player?
 		}
 
-		Details details = details();
-		details.add("createdRegion", region);
-		TellService.sendMessage(sender, "regions-create", details);
+		return Empty.INSTANCE;
 	}
 
 	private void requestName(CommandSender sender) {
