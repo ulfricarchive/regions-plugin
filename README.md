@@ -1,2 +1,2 @@
-# protec
-Minecraft plugin for region protection
+# regions-plugin
+Bukkit plugin for region protection
