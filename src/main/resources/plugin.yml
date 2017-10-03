@@ -1,6 +1,5 @@
-name: Protec
-main: com.ulfric.protec.Protec
+name: Regions
+main: com.ulfric.plugin.regions.RegionsPlugin
 version: 1.0.0
 author: Ulfric LLC
-load: STARTUP
-depend: [Platform, Services, Restrictions]
+depend: [Platform, Services, Commands, Locale, Data, Restrictions]
