@@ -18,7 +18,7 @@ import java.util.UUID;
 
 public class GuardService extends ServiceApplication implements RegionService<GuardService> {
 
-	private static GuardService last; // TODO stop leaking instances
+	private static GuardService last; // TODO stop leaking instances - this is for performance so we can avoid the service lookup
 
 	public static GuardService getLastCreated() {
 		return last;
