@@ -1,4 +1,4 @@
-package com.ulfric.plugin.regions.flag;
+package com.ulfric.plugin.regions.flag.block.breaks;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;

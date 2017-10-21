@@ -1,4 +1,6 @@
-package com.ulfric.plugin.regions.flag;
+package com.ulfric.plugin.regions.flag.block.breaks;
+
+import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,13 +15,13 @@ import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.permissions.Permissible;
 
+import com.ulfric.plugin.regions.flag.block.BlockEventFlagListener;
 import com.ulfric.plugin.regions.guard.GuardService;
 import com.ulfric.spatialregions.Region;
 
-import java.util.List;
-
-public class BreakListener extends FlagListener { // TODO handle slime blocks in later versions
+public class BreakListener extends BlockEventFlagListener { // TODO handle slime blocks in later versions
 
 	@EventHandler(ignoreCancelled = true)
 	public void on(BlockBreakEvent event) {
@@ -27,7 +29,7 @@ public class BreakListener extends FlagListener { // TODO handle slime blocks in
 			return;
 		}
 
-		cancelIfDenied(event.getBlock(), event);
+		cancelIfDenied(event);
 	}
 
 	@EventHandler(ignoreCancelled = true)
@@ -37,7 +39,7 @@ public class BreakListener extends FlagListener { // TODO handle slime blocks in
 		}
 
 		if (event.getBlockReplacedState().getType() != Material.AIR) {
-			cancelIfDenied(event.getBlock(), event);
+			cancelIfDenied(event);
 		}
 	}
 
@@ -63,7 +65,7 @@ public class BreakListener extends FlagListener { // TODO handle slime blocks in
 
 	@EventHandler(ignoreCancelled = true)
 	public void on(BlockBurnEvent event) {
-		cancelIfDenied(event.getBlock(), event);
+		cancelIfDenied(event);
 	}
 
 	@EventHandler(ignoreCancelled = true)
@@ -113,6 +115,21 @@ public class BreakListener extends FlagListener { // TODO handle slime blocks in
 		Block block = event.getBlockClicked().getRelative(event.getBlockFace());
 
 		cancelIfDenied(block, event);
+	}
+
+	@Override
+	protected boolean isDenied(Block block) {
+		return !Break.isBreakAllowed(block);
+	}
+
+	@Override
+	protected boolean isDenied(List<Region> regions) {
+		return !Break.isBreakAllowed(regions);
+	}
+
+	@Override
+	protected boolean testPermissions(Permissible permissible) {
+		return permissible.hasPermission("regions-break");
 	}
 
 }

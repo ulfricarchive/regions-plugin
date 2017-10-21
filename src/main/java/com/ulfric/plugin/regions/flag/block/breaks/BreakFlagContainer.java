@@ -1,4 +1,4 @@
-package com.ulfric.plugin.regions.flag;
+package com.ulfric.plugin.regions.flag.block.breaks;
 
 import com.ulfric.dragoon.application.Container;
 import com.ulfric.spatialregions.Flags;
