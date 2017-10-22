@@ -23,6 +23,10 @@ public interface Break extends Flag {
 	}
 
 	static boolean isBreakAllowed(List<Region> regions) {
+		if (regions.isEmpty()) {
+			return true;
+		}
+
 		for (Region region : regions) {
 			Flags flags = region.getFlags();
 

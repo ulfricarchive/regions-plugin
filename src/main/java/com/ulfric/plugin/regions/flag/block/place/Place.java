@@ -23,6 +23,10 @@ public interface Place extends Flag {
 	}
 
 	static boolean isPlaceAllowed(List<Region> regions) {
+		if (regions.isEmpty()) {
+			return true;
+		}
+
 		for (Region region : regions) {
 			Flags flags = region.getFlags();
 
