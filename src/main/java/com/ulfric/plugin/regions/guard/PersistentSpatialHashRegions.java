@@ -1,24 +1,24 @@
 package com.ulfric.plugin.regions.guard;
 
-import com.ulfric.plugin.regions.collection.SpatialHashRegions;
-import com.ulfric.spatialregions.Region;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import com.ulfric.dragoon.rethink.Location;
+import com.ulfric.dragoon.rethink.Store;
+import com.ulfric.plugin.regions.collection.SpatialHashRegions;
+import com.ulfric.spatialregions.Region;
 
 final class PersistentSpatialHashRegions extends SpatialHashRegions { // TODO cleanup class
 
 	private final UUID world;
-	private final RegionsFile file;
+	private final Object lock = new Object();
+	private final Store<RegionDocument> database;
 	private final Map<String, Region> byName = new HashMap<>();
 
-	public PersistentSpatialHashRegions(UUID world, RegionsFile file) {
+	public PersistentSpatialHashRegions(UUID world, Store<RegionDocument> database) {
 		this.world = world;
-		this.file = file;
+		this.database = database;
 	}
 
 	public void addFromFile(Region region) {
@@ -33,33 +33,24 @@ final class PersistentSpatialHashRegions extends SpatialHashRegions { // TODO cl
 	public void add(Region region) {
 		super.add(region);
 
-		String name = region.getName();
-		synchronized (file) {
+		String name = region.getName().toLowerCase();
+		synchronized (lock) {
 			byName.put(name, region);
 
-			List<RegionData> allData = new ArrayList<>(file.getRegions());
-			RegionData base = null;
-
-			for (RegionData data : allData) {
-				if (data.getName().equalsIgnoreCase(name)) {
-					base = data;
-					break;
-				}
+			Location location = Location.key(name);
+			RegionDocument document = database.get(location).join().get();
+			if (document == null) {
+				document = new RegionDocument();
 			}
 
-			if (base == null) {
-				base = new RegionData();
-				allData.add(base);
-			}
+			saveDataIntoRegion(region, document);
 
-			saveDataIntoRegion(region, base);
-
-			file.setRegions(allData);
+			database.insert(document).join();
 		}
 	}
 
-	private void saveDataIntoRegion(Region region, RegionData data) {
-		RegionFileHelper.regionIntoData(region, data);
+	private void saveDataIntoRegion(Region region, RegionDocument data) {
+		RegionDocumentHelper.regionIntoData(region, data);
 		data.setWorld(world);
 	}
 
@@ -67,18 +58,10 @@ final class PersistentSpatialHashRegions extends SpatialHashRegions { // TODO cl
 	public void remove(Region region) {
 		super.remove(region);
 
-		String name = region.getName();
-		synchronized (file) {
+		String name = region.getName().toLowerCase();
+		synchronized (lock) {
 			byName.remove(name);
-			List<RegionData> allData = new ArrayList<>(file.getRegions());
-
-			Iterator<RegionData> iterator = allData.iterator();
-			while (iterator.hasNext()) {
-				if (iterator.next().getName().equalsIgnoreCase(name)) {
-					iterator.remove();
-					break;
-				}
-			}
+			database.delete(Location.key(name));
 		}
 	}
 

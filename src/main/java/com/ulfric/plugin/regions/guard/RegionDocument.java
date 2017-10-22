@@ -1,16 +1,14 @@
 package com.ulfric.plugin.regions.guard;
 
-import com.google.gson.JsonElement;
-
-import com.ulfric.commons.value.Bean;
-
 import java.util.Map;
 import java.util.UUID;
 
-public class RegionData extends Bean {
+import com.google.gson.JsonElement;
+import com.ulfric.dragoon.rethink.Document;
+
+public class RegionDocument extends Document {
 
 	private UUID world;
-	private String name;
 	private Integer weight;
 	private Map<String, JsonElement> flags;
 	private ShapeData bounds;
@@ -21,14 +19,6 @@ public class RegionData extends Bean {
 
 	public void setWorld(UUID world) {
 		this.world = world;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public Integer getWeight() {

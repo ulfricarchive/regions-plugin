@@ -1,20 +1,23 @@
 package com.ulfric.plugin.regions.guard;
 
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-
-import com.ulfric.dragoon.conf4j.Settings;
-import com.ulfric.plugin.regions.RegionService;
-import com.ulfric.plugin.services.ServiceApplication;
-import com.ulfric.spatialregions.Region;
-import com.ulfric.spatialregions.RegionSpace;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.UUID;
+
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+
+import com.ulfric.dragoon.extension.inject.Inject;
+import com.ulfric.dragoon.rethink.Database;
+import com.ulfric.dragoon.rethink.Instance;
+import com.ulfric.dragoon.rethink.Store;
+import com.ulfric.plugin.regions.RegionService;
+import com.ulfric.plugin.services.ServiceApplication;
+import com.ulfric.spatialregions.Region;
+import com.ulfric.spatialregions.RegionSpace;
 
 public class GuardService extends ServiceApplication implements RegionService<GuardService> {
 
@@ -34,8 +37,9 @@ public class GuardService extends ServiceApplication implements RegionService<Gu
 		return space.getRegions(location.getBlockX(), location.getBlockY(), location.getBlockZ());
 	}
 
-	@Settings
-	private RegionsFile regions;
+	@Inject
+	@Database(table = "regions")
+	private Store<RegionDocument> regions;
 
 	private final Map<UUID, PersistentSpatialHashRegions> worlds = new HashMap<>();
 
@@ -85,20 +89,17 @@ public class GuardService extends ServiceApplication implements RegionService<Gu
 		return null;
 	}
 
-	List<RegionData> getRegionData() {
-		return regions.getRegions();
-	}
-
-	void updateRegions(List<RegionData> data) {
-		regions.setRegions(data);
-	}
-
 	private void loadRegions() {
-		regions.getRegions().forEach(this::loadRegion);
+		regions.listAllFromDatabase()
+			.join()
+			.stream()
+			.map(Instance::get)
+			.filter(Objects::nonNull)
+			.forEach(this::loadRegion);
 	}
 
-	private void loadRegion(RegionData data) {
-		Region region = RegionFileHelper.regionFromData(data);
+	private void loadRegion(RegionDocument data) {
+		Region region = RegionDocumentHelper.regionFromData(data);
 
 		PersistentSpatialHashRegions space = getRegions(data.getWorld());
 		space.addFromFile(region);
