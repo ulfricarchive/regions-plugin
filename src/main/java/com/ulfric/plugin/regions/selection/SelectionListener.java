@@ -25,7 +25,7 @@ public class SelectionListener implements Listener {
 		}
 
 		ItemStack item = event.getItem();
-		if (item.hasItemMeta() || !ItemStackHelper.matches(item, Material.WOOD_AXE)) {// TODO configurable
+		if (item == null || item.hasItemMeta() || !ItemStackHelper.matches(item, Material.WOOD_AXE)) {// TODO configurable
 			return;
 		}
 
