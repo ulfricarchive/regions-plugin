@@ -3,19 +3,19 @@ package com.ulfric.plugin.regions.selection;
 import com.google.common.collect.Iterators;
 
 import com.ulfric.commons.value.Bean;
-import com.ulfric.spatialregions.shape.Cube;
-import com.ulfric.spatialregions.shape.Point;
+import com.ulfric.spatialregions.shape.Square;
+import com.ulfric.spatialregions.shape.Point2d;
 import com.ulfric.spatialregions.shape.Shape;
 
 import java.util.Iterator;
 
 public final class CuboidSelection extends Bean implements Selection {
 
-	private Point x;
-	private Point z;
+	private Point2d x;
+	private Point2d z;
 
 	@Override
-	public Iterator<Point> iterator() {
+	public Iterator<Point2d> iterator() {
 		return Iterators.forArray(x, z);
 	}
 
@@ -37,13 +37,13 @@ public final class CuboidSelection extends Bean implements Selection {
 	}
 
 	@Override
-	public void start(Point point) {
+	public void start(Point2d point) {
 		x = point;
 		z = null;
 	}
 
 	@Override
-	public void add(Point point) {
+	public void add(Point2d point) {
 		if (x == null) {
 			start(point);
 			return;
@@ -64,7 +64,7 @@ public final class CuboidSelection extends Bean implements Selection {
 			throw new IllegalStateException("CuboidSelection not complete; x=" + x + ", y=" + z);
 		}
 
-		return new Cube(x, z);
+		return new Square(x, z);
 	}
 
 }

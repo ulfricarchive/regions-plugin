@@ -13,7 +13,7 @@ import com.ulfric.commons.bukkit.player.InteractEventHelper;
 import com.ulfric.i18n.content.Detail;
 import com.ulfric.i18n.content.Details;
 import com.ulfric.plugin.locale.TellService;
-import com.ulfric.spatialregions.shape.Point;
+import com.ulfric.spatialregions.shape.Point2d;
 
 public class SelectionListener implements Listener {
 
@@ -41,9 +41,8 @@ public class SelectionListener implements Listener {
 		SelectionService service = SelectionService.get();
 		Selection selection = service.getSelection(player.getUniqueId());
 
-		Point point = Point.builder()
+		Point2d point = Point2d.builder()
 				.setX(block.getX())
-				.setY(block.getY())
 				.setZ(block.getZ())
 				.build();
 		if (InteractEventHelper.isLeftClickBlock(event)) {

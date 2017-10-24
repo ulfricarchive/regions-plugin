@@ -11,9 +11,11 @@ public class SpatialHashRegions implements RegionSpace {
 	private final SpatialHash<Region> regions = new SpatialHash<>(128);
 
 	@Override
-	public List<Region> getRegions(int x, int y, int z) {
-		List<Region> regions = this.regions.get(x, y, z);
-		Collections.sort(regions);
+	public List<Region> getRegions(int x, int z) {
+		List<Region> regions = this.regions.get(x, z);
+		if (regions.size() > 1) {
+			Collections.sort(regions);
+		}
 		return regions;
 	}
 

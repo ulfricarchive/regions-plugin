@@ -29,12 +29,12 @@ public class GuardService extends ServiceApplication implements RegionService<Gu
 
 	public static List<Region> getRegionsAt(Block block) {
 		RegionSpace space = last.getRegions(block.getWorld().getUID());
-		return space.getRegions(block.getX(), block.getY(), block.getZ());
+		return space.getRegions(block.getX(), block.getZ());
 	}
 
 	public static List<Region> getRegionsAt(Location location) {
 		RegionSpace space = last.getRegions(location.getWorld().getUID());
-		return space.getRegions(location.getBlockX(), location.getBlockY(), location.getBlockZ());
+		return space.getRegions(location.getBlockX(), location.getBlockZ());
 	}
 
 	@Inject

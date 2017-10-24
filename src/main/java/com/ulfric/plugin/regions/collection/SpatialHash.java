@@ -3,7 +3,7 @@ package com.ulfric.plugin.regions.collection;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.ulfric.commons.collection.Computations;
-import com.ulfric.spatialregions.shape.Point;
+import com.ulfric.spatialregions.shape.Point2d;
 import com.ulfric.spatialregions.shape.Shape;
 
 import java.util.ArrayList;
@@ -36,25 +36,21 @@ public final class SpatialHash<V> {
 		Objects.requireNonNull(shape, "shape");
 		Objects.requireNonNull(value, "value");
 
-		Point min = shape.getMin();
-		Point max = shape.getMax();
+		Point2d min = shape.getMin();
+		Point2d max = shape.getMax();
 
 		int size = this.sectionSize;
 		int minX = min.getX() / size;
 		int maxX = max.getX() / size;
-		int minY = min.getY() / size;
-		int maxY = max.getY() / size;
 		int minZ = min.getZ() / size;
 		int maxZ = max.getZ() / size;
 
 		Int2ObjectMap<List<Entry>> data = this.data;
 		for (int x = minX; x < maxX; x++) {
-			for (int y = minY; y < maxY; y++) {
-				for (int z = minZ; z < maxZ; z++) {
-					int packed = this.pack(x, y, z);
-					List<Entry> entries = data.computeIfAbsent(packed, Computations::newArrayListIgnoring);
-					entries.add(new Entry(shape, value));
-				}
+			for (int z = minZ; z < maxZ; z++) {
+				int packed = this.pack(x, z);
+				List<Entry> entries = data.computeIfAbsent(packed, Computations::newArrayListIgnoring);
+				entries.add(new Entry(shape, value));
 			}
 		}
 	}
@@ -71,8 +67,8 @@ public final class SpatialHash<V> {
 		}
 	}
 
-	public List<V> get(int x, int y, int z) {
-		int packed = pack(x, y, z);
+	public List<V> get(int x, int z) {
+		int packed = pack(x, z);
 
 		List<Entry> entries = data.get(packed);
 		if (CollectionUtils.isEmpty(entries)) {
@@ -83,15 +79,15 @@ public final class SpatialHash<V> {
 		List<V> values = new ArrayList<>(size);
 		for (int i = 0; i < size; i++) {
 			Entry entry = entries.get(i);
-			if (entry.shape.containsPoint(x, y, z)) {
+			if (entry.shape.containsPoint(x, z)) {
 				values.add(entry.value);
 			}
 		}
 		return values;
 	}
 
-	private int pack(int x, int y, int z) {
-		return (x << 16) | ((0xFF & z) << 8) | (y);
+	private int pack(int x, int z) {
+		return (x << 16) | (z & 0xFFFF);
 	}
 
 	private final class Entry {
