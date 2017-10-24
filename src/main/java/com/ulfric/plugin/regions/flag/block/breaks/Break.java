@@ -3,9 +3,9 @@ package com.ulfric.plugin.regions.flag.block.breaks;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
-import com.ulfric.commons.spatial.Flag;
-import com.ulfric.commons.spatial.Flags;
 import com.ulfric.commons.spatial.Region;
+import com.ulfric.commons.spatial.flag.Flag;
+import com.ulfric.commons.spatial.flag.Flags;
 import com.ulfric.plugin.regions.guard.GuardService;
 
 import java.util.List;
