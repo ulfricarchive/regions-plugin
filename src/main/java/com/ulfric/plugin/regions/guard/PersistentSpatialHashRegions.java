@@ -12,7 +12,7 @@ import com.ulfric.spatialregions.Region;
 final class PersistentSpatialHashRegions extends SpatialHashRegions { // TODO cleanup class
 
 	private final UUID world;
-	private final Object lock = new Object();
+	private final Object mutex = new Object();
 	private final Store<RegionDocument> database;
 	private final Map<String, Region> byName = new HashMap<>();
 
@@ -34,7 +34,7 @@ final class PersistentSpatialHashRegions extends SpatialHashRegions { // TODO cl
 		super.add(region);
 
 		String name = region.getName().toLowerCase();
-		synchronized (lock) {
+		synchronized (mutex) {
 			byName.put(name, region);
 
 			Location location = Location.key(name);
@@ -59,7 +59,7 @@ final class PersistentSpatialHashRegions extends SpatialHashRegions { // TODO cl
 		super.remove(region);
 
 		String name = region.getName().toLowerCase();
-		synchronized (lock) {
+		synchronized (mutex) {
 			byName.remove(name);
 			database.delete(Location.key(name));
 		}
