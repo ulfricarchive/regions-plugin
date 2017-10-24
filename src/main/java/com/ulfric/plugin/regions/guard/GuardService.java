@@ -10,14 +10,14 @@ import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 
+import com.ulfric.commons.spatial.Region;
+import com.ulfric.commons.spatial.RegionSpace;
 import com.ulfric.dragoon.extension.inject.Inject;
 import com.ulfric.dragoon.rethink.Database;
 import com.ulfric.dragoon.rethink.Instance;
 import com.ulfric.dragoon.rethink.Store;
 import com.ulfric.plugin.regions.RegionService;
 import com.ulfric.plugin.services.ServiceApplication;
-import com.ulfric.spatialregions.Region;
-import com.ulfric.spatialregions.RegionSpace;
 
 public class GuardService extends ServiceApplication implements RegionService<GuardService> {
 

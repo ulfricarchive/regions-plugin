@@ -1,7 +1,7 @@
 package com.ulfric.plugin.regions;
 
+import com.ulfric.commons.spatial.RegionSpace;
 import com.ulfric.plugin.services.Service;
-import com.ulfric.spatialregions.RegionSpace;
 
 import java.util.UUID;
 

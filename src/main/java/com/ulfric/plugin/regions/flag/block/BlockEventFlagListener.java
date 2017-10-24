@@ -7,8 +7,8 @@ import org.bukkit.block.Block;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.block.BlockEvent;
 
+import com.ulfric.commons.spatial.Region;
 import com.ulfric.plugin.regions.flag.EventFlagListener;
-import com.ulfric.spatialregions.Region;
 
 public abstract class BlockEventFlagListener extends EventFlagListener<BlockEvent> {
 

@@ -1,9 +1,9 @@
 package com.ulfric.plugin.regions.command;
 
+import com.ulfric.commons.spatial.Region;
 import com.ulfric.plugin.commands.argument.ResolutionRequest;
 import com.ulfric.plugin.commands.argument.Resolver;
 import com.ulfric.plugin.regions.guard.GuardService;
-import com.ulfric.spatialregions.Region;
 
 public class RegionResolver extends Resolver<Region> {
 

@@ -1,7 +1,7 @@
 package com.ulfric.plugin.regions.flag.block.breaks;
 
+import com.ulfric.commons.spatial.Flags;
 import com.ulfric.dragoon.application.Container;
-import com.ulfric.spatialregions.Flags;
 
 public class BreakFlagContainer extends Container {
 

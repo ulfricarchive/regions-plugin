@@ -8,8 +8,8 @@ import org.bukkit.event.block.BlockCanChangeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.permissions.Permissible;
 
+import com.ulfric.commons.spatial.Region;
 import com.ulfric.plugin.regions.flag.block.BlockEventFlagListener;
-import com.ulfric.spatialregions.Region;
 
 public class PlaceListener extends BlockEventFlagListener { // TODO handle all place events
 

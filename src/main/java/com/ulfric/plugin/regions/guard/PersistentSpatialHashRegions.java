@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.ulfric.commons.spatial.Region;
+import com.ulfric.commons.spatial.SpatialHashRegions;
 import com.ulfric.dragoon.rethink.Location;
 import com.ulfric.dragoon.rethink.Store;
-import com.ulfric.plugin.regions.collection.SpatialHashRegions;
-import com.ulfric.spatialregions.Region;
 
 final class PersistentSpatialHashRegions extends SpatialHashRegions { // TODO cleanup class
 

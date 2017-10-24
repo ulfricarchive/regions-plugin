@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 import com.ulfric.commons.bukkit.world.WorldHelper;
 import com.ulfric.commons.naming.Name;
+import com.ulfric.commons.spatial.Region;
 import com.ulfric.i18n.content.Details;
 import com.ulfric.plugin.commands.Permission;
 import com.ulfric.plugin.commands.Restricted;
@@ -13,7 +14,6 @@ import com.ulfric.plugin.commands.argument.Slug;
 import com.ulfric.plugin.regions.guard.GuardService;
 import com.ulfric.plugin.regions.selection.Selection;
 import com.ulfric.plugin.regions.selection.SelectionService;
-import com.ulfric.spatialregions.Region;
 import com.ulfric.spatialregions.shape.Empty;
 import com.ulfric.spatialregions.shape.Shape;
 

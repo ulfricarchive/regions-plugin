@@ -17,9 +17,9 @@ import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.permissions.Permissible;
 
+import com.ulfric.commons.spatial.Region;
 import com.ulfric.plugin.regions.flag.block.BlockEventFlagListener;
 import com.ulfric.plugin.regions.guard.GuardService;
-import com.ulfric.spatialregions.Region;
 
 public class BreakListener extends BlockEventFlagListener { // TODO handle slime blocks in later versions
 

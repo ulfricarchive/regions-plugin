@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.bukkit.event.Event;
 
-import com.ulfric.spatialregions.Region;
+import com.ulfric.commons.spatial.Region;
 
 public abstract class EventFlagListener<T extends Event> extends FlagListener {
 

@@ -3,9 +3,9 @@ package com.ulfric.plugin.regions.guard;
 import com.google.gson.JsonElement;
 
 import com.ulfric.commons.json.JsonHelper;
+import com.ulfric.commons.spatial.Flags;
+import com.ulfric.commons.spatial.Region;
 import com.ulfric.dragoon.rethink.Location;
-import com.ulfric.spatialregions.Flags;
-import com.ulfric.spatialregions.Region;
 import com.ulfric.spatialregions.shape.Empty;
 import com.ulfric.spatialregions.shape.Shape;
 import com.ulfric.spatialregions.shape.Shapes;
