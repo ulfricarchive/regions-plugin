@@ -5,10 +5,10 @@ import com.google.gson.JsonElement;
 import com.ulfric.commons.json.JsonHelper;
 import com.ulfric.commons.spatial.Region;
 import com.ulfric.commons.spatial.flag.Flags;
+import com.ulfric.commons.spatial.shape.Empty;
+import com.ulfric.commons.spatial.shape.Shape;
+import com.ulfric.commons.spatial.shape.Shapes;
 import com.ulfric.dragoon.rethink.Location;
-import com.ulfric.spatialregions.shape.Empty;
-import com.ulfric.spatialregions.shape.Shape;
-import com.ulfric.spatialregions.shape.Shapes;
 
 import java.util.Map;
 import java.util.Objects;

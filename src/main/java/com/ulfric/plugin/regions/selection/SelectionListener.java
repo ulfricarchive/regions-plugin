@@ -10,10 +10,10 @@ import org.bukkit.inventory.ItemStack;
 
 import com.ulfric.commons.bukkit.item.ItemStackHelper;
 import com.ulfric.commons.bukkit.player.InteractEventHelper;
+import com.ulfric.commons.spatial.shape.Point2d;
 import com.ulfric.i18n.content.Detail;
 import com.ulfric.i18n.content.Details;
 import com.ulfric.plugin.locale.TellService;
-import com.ulfric.spatialregions.shape.Point2d;
 
 public class SelectionListener implements Listener {
 

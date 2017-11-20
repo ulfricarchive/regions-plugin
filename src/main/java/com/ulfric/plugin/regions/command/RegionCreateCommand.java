@@ -6,6 +6,8 @@ import org.bukkit.entity.Player;
 import com.ulfric.commons.bukkit.world.WorldHelper;
 import com.ulfric.commons.naming.Name;
 import com.ulfric.commons.spatial.Region;
+import com.ulfric.commons.spatial.shape.Empty;
+import com.ulfric.commons.spatial.shape.Shape;
 import com.ulfric.i18n.content.Details;
 import com.ulfric.plugin.commands.Permission;
 import com.ulfric.plugin.commands.Restricted;
@@ -14,16 +16,14 @@ import com.ulfric.plugin.commands.argument.Slug;
 import com.ulfric.plugin.regions.guard.GuardService;
 import com.ulfric.plugin.regions.selection.Selection;
 import com.ulfric.plugin.regions.selection.SelectionService;
-import com.ulfric.spatialregions.shape.Empty;
-import com.ulfric.spatialregions.shape.Shape;
 
 @Name("create")
 @Permission("region.create")
 @Restricted("RegionCreate")
 public class RegionCreateCommand extends RegionCommand {
 
-	@Argument(optional = true)
 	@Slug
+	@Argument(optional = true)
 	private String name;
 
 	@Argument(optional = true)
@@ -49,7 +49,7 @@ public class RegionCreateCommand extends RegionCommand {
 				.build();
 
 		if (!GuardService.getLastCreated().createRegion(region, world.getUID())) {
-			tell("regions-create-already-exists");
+			tell("regions-create-failed");
 			return;
 		}
 

@@ -1,11 +1,10 @@
 package com.ulfric.plugin.regions.selection;
 
 import com.google.common.collect.Iterators;
-
+import com.ulfric.commons.spatial.shape.Point2d;
+import com.ulfric.commons.spatial.shape.Shape;
+import com.ulfric.commons.spatial.shape.Square;
 import com.ulfric.commons.value.Bean;
-import com.ulfric.spatialregions.shape.Square;
-import com.ulfric.spatialregions.shape.Point2d;
-import com.ulfric.spatialregions.shape.Shape;
 
 import java.util.Iterator;
 

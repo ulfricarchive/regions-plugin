@@ -1,7 +1,7 @@
 package com.ulfric.plugin.regions.selection;
 
-import com.ulfric.spatialregions.shape.Point2d;
-import com.ulfric.spatialregions.shape.Shape;
+import com.ulfric.commons.spatial.shape.Point2d;
+import com.ulfric.commons.spatial.shape.Shape;
 
 public interface Selection extends Iterable<Point2d> {
 
