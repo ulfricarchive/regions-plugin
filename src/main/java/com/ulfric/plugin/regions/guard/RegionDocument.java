@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.google.gson.JsonElement;
-import com.ulfric.dragoon.rethink.Document;
+import com.ulfric.dragoon.acrodb.Document;
 
 public class RegionDocument extends Document {
 

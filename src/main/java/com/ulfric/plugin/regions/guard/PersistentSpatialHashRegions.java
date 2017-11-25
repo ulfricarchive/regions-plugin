@@ -6,8 +6,7 @@ import java.util.UUID;
 
 import com.ulfric.commons.spatial.Region;
 import com.ulfric.commons.spatial.SpatialHashRegions;
-import com.ulfric.dragoon.rethink.Location;
-import com.ulfric.dragoon.rethink.Store;
+import com.ulfric.dragoon.acrodb.Store;
 
 final class PersistentSpatialHashRegions extends SpatialHashRegions { // TODO cleanup class
 
@@ -37,15 +36,14 @@ final class PersistentSpatialHashRegions extends SpatialHashRegions { // TODO cl
 		synchronized (mutex) {
 			byName.put(name, region);
 
-			Location location = Location.key(name);
-			RegionDocument document = database.get(location).join().get();
+			RegionDocument document = database.get(name);
 			if (document == null) {
 				document = new RegionDocument();
 			}
 
 			saveDataIntoRegion(region, document);
 
-			database.insert(document).join();
+			database.persist(document);
 		}
 	}
 
@@ -61,7 +59,7 @@ final class PersistentSpatialHashRegions extends SpatialHashRegions { // TODO cl
 		String name = region.getName().toLowerCase();
 		synchronized (mutex) {
 			byName.remove(name);
-			database.delete(Location.key(name));
+			database.deleteDocument(name);
 		}
 	}
 

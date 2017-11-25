@@ -12,10 +12,9 @@ import org.bukkit.block.Block;
 
 import com.ulfric.commons.spatial.Region;
 import com.ulfric.commons.spatial.RegionSpace;
+import com.ulfric.dragoon.acrodb.Database;
+import com.ulfric.dragoon.acrodb.Store;
 import com.ulfric.dragoon.extension.inject.Inject;
-import com.ulfric.dragoon.rethink.Database;
-import com.ulfric.dragoon.rethink.Instance;
-import com.ulfric.dragoon.rethink.Store;
 import com.ulfric.plugin.regions.RegionService;
 import com.ulfric.plugin.services.ServiceApplication;
 
@@ -38,7 +37,7 @@ public class GuardService extends ServiceApplication implements RegionService<Gu
 	}
 
 	@Inject
-	@Database(table = "regions")
+	@Database({"guard", "regions"})
 	private Store<RegionDocument> regions;
 
 	private final Map<UUID, PersistentSpatialHashRegions> worlds = new HashMap<>();
@@ -90,11 +89,7 @@ public class GuardService extends ServiceApplication implements RegionService<Gu
 	}
 
 	private void loadRegions() {
-		regions.listAllFromDatabase()
-			.join()
-			.stream()
-			.map(Instance::get)
-			.filter(Objects::nonNull)
+		regions.getAllDocuments()
 			.forEach(this::loadRegion);
 	}
 

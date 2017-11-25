@@ -36,29 +36,40 @@ public class RegionCreateCommand extends RegionCommand {
 	public void run() { // TODO use selection for region bounds rather than shapeless (empty)
 		if (name == null) {
 			requestOnSign("regions-create-sign-give-name", "/region create");
-
 			return;
 		}
 
 		defaultWorldIfMissing();
 
-		Region region = Region.builder()
-				.setName(name)
-				.setWeight(weight)
-				.setBounds(bounds())
-				.build();
+		Region region = createRegionBean();
 
-		if (!GuardService.getLastCreated().createRegion(region, world.getUID())) {
+		if (!executeRegionCreation(region)) {
 			tell("regions-create-failed");
 			return;
 		}
 
+		notifyCreationSuccess(region);
+	}
+
+	private void notifyCreationSuccess(Region region) {
 		Details details = details();
 		details.add("region", region);
 		tell("regions-create", details);
 	}
 
-	private Shape bounds() {
+	private boolean executeRegionCreation(Region region) {
+		return GuardService.getLastCreated().createRegion(region, world.getUID());
+	}
+
+	private Region createRegionBean() {
+		return Region.builder()
+				.setName(name)
+				.setWeight(weight)
+				.setBounds(createBoundsBean())
+				.build();
+	}
+
+	private Shape createBoundsBean() {
 		return ifPlayer(player -> {
 			Selection selection = SelectionService.get().getSelection(player.getUniqueId());
 

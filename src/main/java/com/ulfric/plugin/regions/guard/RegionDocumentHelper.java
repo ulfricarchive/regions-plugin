@@ -1,23 +1,21 @@
 package com.ulfric.plugin.regions.guard;
 
-import com.google.gson.JsonElement;
+import java.util.Map;
+import java.util.Objects;
 
+import com.google.gson.JsonElement;
 import com.ulfric.commons.json.JsonHelper;
 import com.ulfric.commons.spatial.Region;
 import com.ulfric.commons.spatial.flag.Flags;
 import com.ulfric.commons.spatial.shape.Empty;
 import com.ulfric.commons.spatial.shape.Shape;
 import com.ulfric.commons.spatial.shape.Shapes;
-import com.ulfric.dragoon.rethink.Location;
-
-import java.util.Map;
-import java.util.Objects;
 
 public class RegionDocumentHelper {
 
 	public static Region regionFromData(RegionDocument data) {
 		return Region.builder()
-				.setName(data.getLocation().getKey())
+				.setName(data.getIdentifier().toString())
 				.setWeight(data.getWeight() == null ? 0 : data.getWeight())
 				.setFlags(flagsFromData(data))
 				.setBounds(boundsFromData(data))
@@ -47,7 +45,7 @@ public class RegionDocumentHelper {
 	}
 
 	public static void regionIntoData(Region region, RegionDocument document) {
-		document.setLocation(Location.key(region.getName().toLowerCase()));
+		document.setIdentifier(region.getName().toLowerCase());
 		document.setWeight(region.getWeight() == 0 ? null : region.getWeight());
 		document.setFlags(serializeFlags(region));
 		document.setBounds(serializeBounds(region));
