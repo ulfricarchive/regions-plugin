@@ -1,7 +1,7 @@
 package com.ulfric.plugin.regions.selection.command;
 
 import com.ulfric.commons.naming.Name;
-import com.ulfric.plugin.commands.Permission;
+import com.ulfric.plugin.commands.permissions.Permission;
 import com.ulfric.plugin.regions.selection.Selection;
 import com.ulfric.plugin.regions.selection.SelectionService;
 

@@ -9,13 +9,13 @@ import com.ulfric.commons.spatial.Region;
 import com.ulfric.commons.spatial.shape.Empty;
 import com.ulfric.commons.spatial.shape.Shape;
 import com.ulfric.i18n.content.Details;
-import com.ulfric.plugin.commands.Permission;
-import com.ulfric.plugin.commands.Restricted;
 import com.ulfric.plugin.commands.argument.Argument;
 import com.ulfric.plugin.commands.argument.Slug;
+import com.ulfric.plugin.commands.permissions.Permission;
 import com.ulfric.plugin.regions.guard.GuardService;
 import com.ulfric.plugin.regions.selection.Selection;
 import com.ulfric.plugin.regions.selection.SelectionService;
+import com.ulfric.plugin.restrictions.command.Restricted;
 
 @Name("create")
 @Permission("region.create")
