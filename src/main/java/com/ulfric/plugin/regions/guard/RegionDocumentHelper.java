@@ -1,15 +1,14 @@
 package com.ulfric.plugin.regions.guard;
 
 import java.util.Map;
-import java.util.Objects;
 
 import com.google.gson.JsonElement;
 import com.ulfric.commons.json.JsonHelper;
 import com.ulfric.commons.spatial.Region;
 import com.ulfric.commons.spatial.flag.Flags;
-import com.ulfric.commons.spatial.shape.Empty;
+import com.ulfric.commons.spatial.shape.Point2d;
 import com.ulfric.commons.spatial.shape.Shape;
-import com.ulfric.commons.spatial.shape.Shapes;
+import com.ulfric.commons.spatial.shape.Square;
 
 public class RegionDocumentHelper {
 
@@ -31,17 +30,26 @@ public class RegionDocumentHelper {
 		return Flags.create(JsonHelper.toJsonObject(flags).getAsJsonObject());
 	}
 
-	private static Shape boundsFromData(RegionDocument data) {
-		ShapeData shape = data.getBounds();
+	private static Square boundsFromData(RegionDocument data) {
+		SquareDocument shape = data.getBounds();
 
-		if (shape == null) {
-			return Empty.INSTANCE;
+		Point2d one = null;
+		Point2d two = null;
+
+		if (shape != null) {
+			one = shape.getPositionOne();
+			two = shape.getPositionTwo();
 		}
 
-		// TODO better error handling
-		Class<? extends Shape> type = Shapes.getShape(shape.getType());
-		Objects.requireNonNull(type, "type");
-		return JsonHelper.read(shape.getData(), type);
+		if (one == null) {
+			one = Point2d.ZERO;
+		}
+
+		if (two == null) {
+			two = Point2d.ZERO;
+		}
+
+		return new Square(one, two);
 	}
 
 	public static void regionIntoData(Region region, RegionDocument document) {
@@ -55,11 +63,11 @@ public class RegionDocumentHelper {
 		return JsonHelper.read(region.getFlags().toJson(), Map.class); // TODO does type need to be specified?
 	}
 
-	private static ShapeData serializeBounds(Region region) {
+	private static SquareDocument serializeBounds(Region region) {
 		Shape shape = region.getBounds();
-		ShapeData data = new ShapeData();
-		data.setType(shape.getName());
-		data.setData(shape.toJson());
+		SquareDocument data = new SquareDocument();
+		data.setPositionOne(shape.getMin());
+		data.setPositionTwo(shape.getMax());
 		return data;
 	}
 

@@ -3,11 +3,12 @@ package com.ulfric.plugin.regions;
 import com.ulfric.plugin.Plugin;
 import com.ulfric.plugin.regions.command.RegionCommand;
 import com.ulfric.plugin.regions.command.RegionCreateCommand;
+import com.ulfric.plugin.regions.command.RegionResolver;
 import com.ulfric.plugin.regions.flag.DefaultFlagsContainer;
+import com.ulfric.plugin.regions.function.Point2dToXFunction;
+import com.ulfric.plugin.regions.function.Point2dToZFunction;
 import com.ulfric.plugin.regions.guard.GuardService;
 import com.ulfric.plugin.regions.selection.SelectionContainer;
-import com.ulfric.plugin.regions.selection.command.SelectionClearCommand;
-import com.ulfric.plugin.regions.selection.command.SelectionCommand;
 
 public class RegionsPlugin extends Plugin {
 
@@ -16,10 +17,12 @@ public class RegionsPlugin extends Plugin {
 		install(DefaultFlagsContainer.class);
 		install(SelectionContainer.class);
 
+		install(Point2dToXFunction.class);
+		install(Point2dToZFunction.class);
+
+		install(RegionResolver.class);
 		install(RegionCommand.class);
 		install(RegionCreateCommand.class);
-		install(SelectionCommand.class);
-		install(SelectionClearCommand.class);
 	}
 
 }

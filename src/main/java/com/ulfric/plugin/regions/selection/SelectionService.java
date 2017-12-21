@@ -1,8 +1,8 @@
 package com.ulfric.plugin.regions.selection;
 
-import com.ulfric.plugin.services.Service;
-
 import java.util.UUID;
+
+import com.ulfric.plugin.services.Service;
 
 public interface SelectionService extends Service<SelectionService> { // TODO implement this
 

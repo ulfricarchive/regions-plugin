@@ -11,7 +11,7 @@ public class RegionDocument extends Document {
 	private UUID world;
 	private Integer weight;
 	private Map<String, JsonElement> flags;
-	private ShapeData bounds;
+	private SquareDocument bounds;
 
 	public UUID getWorld() {
 		return world;
@@ -37,11 +37,11 @@ public class RegionDocument extends Document {
 		this.flags = flags;
 	}
 
-	public ShapeData getBounds() {
+	public SquareDocument getBounds() {
 		return bounds;
 	}
 
-	public void setBounds(ShapeData bounds) {
+	public void setBounds(SquareDocument bounds) {
 		this.bounds = bounds;
 	}
 

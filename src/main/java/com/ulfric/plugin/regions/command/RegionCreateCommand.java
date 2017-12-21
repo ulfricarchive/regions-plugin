@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 import com.ulfric.commons.bukkit.world.WorldHelper;
 import com.ulfric.commons.naming.Name;
 import com.ulfric.commons.spatial.Region;
-import com.ulfric.commons.spatial.shape.Empty;
-import com.ulfric.commons.spatial.shape.Shape;
+import com.ulfric.commons.spatial.shape.Square;
+import com.ulfric.dragoon.extension.inject.Inject;
 import com.ulfric.i18n.content.Details;
 import com.ulfric.plugin.commands.argument.Argument;
 import com.ulfric.plugin.commands.argument.Slug;
@@ -21,6 +21,9 @@ import com.ulfric.plugin.restrictions.command.Restricted;
 @Permission("region.create")
 @Restricted("RegionCreate")
 public class RegionCreateCommand extends RegionCommand {
+
+	@Inject
+	private SelectionService selection;
 
 	@Slug
 	@Argument(optional = true)
@@ -41,7 +44,11 @@ public class RegionCreateCommand extends RegionCommand {
 
 		defaultWorldIfMissing();
 
-		Region region = createRegionBean();
+		Region region = createRegion();
+
+		if (region == null) {
+			
+		}
 
 		if (!executeRegionCreation(region)) {
 			tell("regions-create-failed");
@@ -61,24 +68,28 @@ public class RegionCreateCommand extends RegionCommand {
 		return GuardService.getLastCreated().createRegion(region, world.getUID());
 	}
 
-	private Region createRegionBean() {
+	private Region createRegion() {
+		Square square = createSquare();
+		if (square == null) {
+			
+		}
 		return Region.builder()
 				.setName(name)
 				.setWeight(weight)
-				.setBounds(createBoundsBean())
+				.setBounds(square)
 				.build();
 	}
 
-	private Shape createBoundsBean() {
+	private Square createSquare() {
 		return ifPlayer(player -> {
-			Selection selection = SelectionService.get().getSelection(player.getUniqueId());
+			Selection selection = this.selection.getSelection(player.getUniqueId());
 
 			if (selection.isComplete()) {
-				return selection.toShape();
+				return null;
 			}
 
-			return Empty.INSTANCE; // TODO warn the player?
-		}).orElse(Empty.INSTANCE);
+			return selection.toSquare();
+		}).orElse(null);
 	}
 
 	private void defaultWorldIfMissing() {

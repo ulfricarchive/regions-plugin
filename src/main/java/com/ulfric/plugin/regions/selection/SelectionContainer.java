@@ -7,10 +7,10 @@ import com.ulfric.plugin.regions.selection.command.SelectionCommand;
 public class SelectionContainer extends Container {
 
 	public SelectionContainer() {
+		install(SelectionService.class);
+		install(SelectionListener.class);
 		install(SelectionCommand.class);
 		install(SelectionClearCommand.class);
-
-		install(SelectionListener.class);
 	}
 
 }
