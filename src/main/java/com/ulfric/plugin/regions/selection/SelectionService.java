@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.ulfric.plugin.services.Service;
 
-public interface SelectionService extends Service<SelectionService> { // TODO implement this
+public interface SelectionService extends Service<SelectionService> {
 
 	public static SelectionService get() {
 		return Service.get(SelectionService.class);

@@ -7,7 +7,7 @@ import com.ulfric.commons.spatial.shape.Point2d;
 import com.ulfric.commons.spatial.shape.Square;
 import com.ulfric.commons.value.Bean;
 
-public final class CuboidSelection extends Bean implements Selection {
+public final class SquareSelection extends Bean implements Selection {
 
 	private Point2d x;
 	private Point2d z;
