@@ -32,7 +32,7 @@ public class SelectionListener implements Listener {
 			return;
 		}
 
-		if (isWand(event.getItem())) {
+		if (!isWand(event.getItem())) {
 			return;
 		}
 
