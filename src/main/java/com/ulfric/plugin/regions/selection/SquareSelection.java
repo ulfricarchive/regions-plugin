@@ -25,7 +25,6 @@ public final class SquareSelection extends Bean implements Selection {
 	@Override
 	public void primary(Point2d point) {
 		x = point;
-		z = null;
 	}
 
 	@Override

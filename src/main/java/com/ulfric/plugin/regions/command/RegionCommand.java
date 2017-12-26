@@ -7,7 +7,7 @@ import com.ulfric.plugin.commands.permissions.Permission;
 
 @Name("region")
 @Alias("rg")
-@Permission("region.use")
+@Permission("region-use")
 public class RegionCommand extends CommandHelp {
 
 }

@@ -6,7 +6,7 @@ import com.ulfric.plugin.regions.selection.Selection;
 import com.ulfric.plugin.regions.selection.SelectionService;
 
 @Name("clear")
-@Permission("selection.clear")
+@Permission("selection-clear")
 public class SelectionClearCommand extends SelectionCommand {
 
 	@Override

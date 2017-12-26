@@ -3,7 +3,6 @@ package com.ulfric.plugin.regions.guard;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -15,6 +14,7 @@ import com.ulfric.commons.spatial.RegionSpace;
 import com.ulfric.dragoon.acrodb.Database;
 import com.ulfric.dragoon.acrodb.Store;
 import com.ulfric.dragoon.extension.inject.Inject;
+import com.ulfric.dragoon.logging.Log;
 import com.ulfric.plugin.regions.RegionService;
 import com.ulfric.plugin.services.ServiceApplication;
 
@@ -39,6 +39,9 @@ public class GuardService extends ServiceApplication implements RegionService<Gu
 	@Inject
 	@Database({"guard", "regions"})
 	private Store<RegionDocument> regions;
+
+	@Inject
+	private Log logger;
 
 	private final Map<UUID, PersistentSpatialHashRegions> worlds = new HashMap<>();
 
@@ -78,8 +81,8 @@ public class GuardService extends ServiceApplication implements RegionService<Gu
 	public Region getRegionByName(String name) {
 		Objects.requireNonNull(name, "name");
 
-		for (Entry<UUID, PersistentSpatialHashRegions> regions : this.worlds.entrySet()) {
-			Region existing = regions.getValue().getByName(name);
+		for (PersistentSpatialHashRegions regions : this.worlds.values()) {
+			Region existing = regions.getByName(name);
 
 			if (existing != null) {
 				return existing;
@@ -94,6 +97,7 @@ public class GuardService extends ServiceApplication implements RegionService<Gu
 	}
 
 	private void loadRegion(RegionDocument data) {
+		logger.info("Loading region: " + data.getIdentifier());
 		Region region = RegionDocumentHelper.regionFromData(data);
 
 		PersistentSpatialHashRegions space = getRegions(data.getWorld());

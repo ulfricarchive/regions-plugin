@@ -7,7 +7,7 @@ import com.ulfric.plugin.commands.permissions.Permission;
 
 @Name("selection")
 @Alias("sel")
-@Permission("selection.use")
+@Permission("selection-use")
 public class SelectionCommand extends CommandHelp {
 
 }

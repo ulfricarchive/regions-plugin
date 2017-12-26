@@ -11,7 +11,6 @@ import com.ulfric.dragoon.acrodb.Store;
 final class PersistentSpatialHashRegions extends SpatialHashRegions { // TODO cleanup class
 
 	private final UUID world;
-	private final Object mutex = new Object();
 	private final Store<RegionDocument> database;
 	private final Map<String, Region> byName = new HashMap<>();
 
@@ -21,30 +20,30 @@ final class PersistentSpatialHashRegions extends SpatialHashRegions { // TODO cl
 	}
 
 	public void addFromFile(Region region) {
-		super.add(region);
+		register(region);
 	}
 
 	public Region getByName(String name) {
-		return byName.get(name);
+		return byName.get(name.toLowerCase());
 	}
 
 	@Override
 	public void add(Region region) {
-		super.add(region);
+		register(region);
 
-		String name = region.getName().toLowerCase();
-		synchronized (mutex) {
-			byName.put(name, region);
-
-			RegionDocument document = database.get(name);
-			if (document == null) {
-				document = new RegionDocument();
-			}
-
-			saveDataIntoRegion(region, document);
-
-			database.persist(document);
+		RegionDocument document = database.get(region.getName().toLowerCase());
+		if (document == null) {
+			document = new RegionDocument();
 		}
+
+		saveDataIntoRegion(region, document);
+
+		database.persist(document);
+	}
+
+	private void register(Region region) {
+		super.add(region);
+		byName.put(region.getName().toLowerCase(), region);
 	}
 
 	private void saveDataIntoRegion(Region region, RegionDocument data) {
@@ -57,10 +56,8 @@ final class PersistentSpatialHashRegions extends SpatialHashRegions { // TODO cl
 		super.remove(region);
 
 		String name = region.getName().toLowerCase();
-		synchronized (mutex) {
-			byName.remove(name);
-			database.deleteDocument(name);
-		}
+		byName.remove(name);
+		database.deleteDocument(name);
 	}
 
 }

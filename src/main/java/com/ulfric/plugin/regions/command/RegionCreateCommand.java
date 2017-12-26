@@ -18,7 +18,7 @@ import com.ulfric.plugin.regions.selection.SelectionService;
 import com.ulfric.plugin.restrictions.command.Restricted;
 
 @Name("create")
-@Permission("region.create")
+@Permission("region-create")
 @Restricted("RegionCreate")
 public class RegionCreateCommand extends RegionCommand {
 
@@ -30,13 +30,13 @@ public class RegionCreateCommand extends RegionCommand {
 	private String name;
 
 	@Argument(optional = true)
-	private World world;
-
-	@Argument(optional = true)
 	private int weight;
 
+	@Argument(optional = true)
+	private World world;
+
 	@Override
-	public void run() { // TODO use selection for region bounds rather than shapeless (empty)
+	public void run() {
 		if (name == null) {
 			requestOnSign("regions-create-sign-give-name", "/region create");
 			return;
@@ -47,7 +47,8 @@ public class RegionCreateCommand extends RegionCommand {
 		Region region = createRegion();
 
 		if (region == null) {
-			
+			tell("regions-create-select-region");
+			return;
 		}
 
 		if (!executeRegionCreation(region)) {
@@ -71,7 +72,7 @@ public class RegionCreateCommand extends RegionCommand {
 	private Region createRegion() {
 		Square square = createSquare();
 		if (square == null) {
-			
+			return null;
 		}
 		return Region.builder()
 				.setName(name)
@@ -84,7 +85,7 @@ public class RegionCreateCommand extends RegionCommand {
 		return ifPlayer(player -> {
 			Selection selection = this.selection.getSelection(player.getUniqueId());
 
-			if (selection.isComplete()) {
+			if (!selection.isComplete()) {
 				return null;
 			}
 
