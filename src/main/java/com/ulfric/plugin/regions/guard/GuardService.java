@@ -78,6 +78,10 @@ public class GuardService extends ServiceApplication implements RegionService<Gu
 		return getRegionByName(name) != null;
 	}
 
+	public void deleteRegion(Region region) {
+		worlds.values().forEach(collection -> collection.remove(region));
+	}
+
 	public Region getRegionByName(String name) {
 		Objects.requireNonNull(name, "name");
 
