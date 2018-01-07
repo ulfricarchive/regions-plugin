@@ -16,9 +16,9 @@ import com.ulfric.plugin.regions.selection.SelectionContainer;
 public class RegionsPlugin extends Plugin {
 
 	public RegionsPlugin() {
-		install(GuardService.class);
 		install(DefaultFlagsContainer.class);
 		install(SelectionContainer.class);
+		install(GuardService.class);
 
 		install(Point2dToXFunction.class);
 		install(Point2dToZFunction.class);

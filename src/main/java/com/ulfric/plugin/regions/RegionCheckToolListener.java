@@ -2,6 +2,7 @@ package com.ulfric.plugin.regions;
 
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,7 +34,7 @@ public class RegionCheckToolListener implements Listener {
 		}
 
 		List<Region> regions = GuardService.getRegionsAt(event.getClickedBlock());
-		if (regions.isEmpty()) {
+		if (CollectionUtils.isEmpty(regions)) {
 			TellService.sendMessage(player, "regions-check-empty");
 			return;
 		}

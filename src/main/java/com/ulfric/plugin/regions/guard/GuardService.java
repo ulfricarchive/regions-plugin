@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -14,7 +15,6 @@ import com.ulfric.commons.spatial.RegionSpace;
 import com.ulfric.dragoon.acrodb.Database;
 import com.ulfric.dragoon.acrodb.Store;
 import com.ulfric.dragoon.extension.inject.Inject;
-import com.ulfric.dragoon.logging.Log;
 import com.ulfric.plugin.regions.RegionService;
 import com.ulfric.plugin.services.ServiceApplication;
 
@@ -41,7 +41,7 @@ public class GuardService extends ServiceApplication implements RegionService<Gu
 	private Store<RegionDocument> regions;
 
 	@Inject
-	private Log logger;
+	private Logger logger;
 
 	private final Map<UUID, PersistentSpatialHashRegions> worlds = new HashMap<>();
 
