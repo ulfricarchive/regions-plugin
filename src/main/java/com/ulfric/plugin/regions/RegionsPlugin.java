@@ -30,6 +30,8 @@ public class RegionsPlugin extends Plugin {
 		install(RegionCommand.class);
 		install(RegionCreateCommand.class);
 		install(RegionDeleteCommand.class);
+
+		install(RegionCheckToolListener.class);
 	}
 
 }
